@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cờ caro</title>
+</head>
+<body>
+<style>
+    table{
+        border-collapse: collapse;
+        text-align: center;
+        font-size: large;
+    }
+    td{
+        width: 20px;
+        height: 20px;
+    }
+</style>
+<div id="gameBoard"></div>
+<script>
+    // khai báo biến flag lưu giá trị của ô đánh cờ
+    let flag= "X"
+    //khai báo mảng game là mảng mới
+    let game = new Array();
+    //b1 tạo hàm vẽ bàn cờ
+    function drawCaro(size){
+        let string;
+        string = "<table border='1'>";
+        for (let i = 1; i <= size; i++) {
+            string = string + "<tr>";
+            // b3 tạo mảng 1 chiều tượng trưng cho các hàng của bàn cờ
+            game[i]= new Array();
+            for (let j = 1; j <= size; j++) {
+                //b2 tạo hàm onclick cho mỗi ô cờ
+                string = string + "<td onclick='changeStatus(this, "+i+","+j+")'>&nbsp;</td>";
+                //b4 tạo cột cho bàn cờ bằng vòng lặp j
+                game[i][j]=0
+            }
+            string = string + "</tr>";
+        }
+        string = string + "</table>";
+        // hiển thị bàn cờ ra thẻ div
+        document.getElementById('gameBoard').innerHTML = string;
+    }
+    // b5 tạo hàm bắt sự kiện onclick trong mỗi ô td
+    function changeStatus(element,i, j){
+        element.innerHTML = flag;
+        // nếu ở vị trí cắm cờ đc onclick mà là x thì suy
+        if (flag === "X"){
+            game[i][j]= -1;
+            flag = "O";
+        } else {
+            game[i][j]= 1;
+            flag = "X";
+        } checkWin(i, j)
+    } console.log(game);
+    //viet hàm check win
+    function checkWin(i, j){
+        let count = 1;
+        while (game[i][j]===game[i][j-1]){
+            count++
+            if (count === 3){
+                setTimeout(function () {
+                    alert("You win");
+                    return;
+                },100);
+            }
+            j--;
+        }
+        while (game[i][j]===game[i][j+1]){
+            count++
+            if (count === 3){
+                setTimeout(function () {
+                    alert("You win");
+                    return;
+                },100);
+            }
+            j++;
+        }
+        while (game[i][j]===game[i+1][j]){
+            count++
+            if (count === 3){
+                setTimeout(function () {
+                    alert("You win");
+                    return;
+                },100);
+            }
+            i++;
+        }
+        while (game[i][j]===game[i-1][j]){
+            count++
+            if (count === 3){
+                setTimeout(function () {
+                    alert("You win");
+                    return;
+                },100);
+            }
+            i--;
+        }
+
+
+    }
+
+
+
+
+
+    drawCaro(+prompt("enter the size you wanna play"));
+</script>
+</body>
+</html>
